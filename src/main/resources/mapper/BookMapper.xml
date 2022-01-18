@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxj.yosmfa.mapper.BookMapper">
+
+    <resultMap id="Book" type="com.yxj.yosmfa.entity.Book">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="book_name" jdbcType="VARCHAR" property="bookName"/>
+        <result column="book_desc" jdbcType="VARCHAR" property="bookDesc"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="picture" jdbcType="VARCHAR" property="picture"/>
+        <result column="nameAndAuthor" jdbcType="VARCHAR" property="name_and_author"/>
+    </resultMap>
+
+
+    <select id="byTop10" parameterType="java.lang.String" resultMap="Book">
+        select * from yxj_book where type =#{type} order by create_time desc limit 5
+    </select>
+
+    <select id="byNameAndAuthor" parameterType="java.lang.String" resultMap="Book">
+        select * from yxj_book where name_and_author like "%"#{nameAndAuthor}"%"
+    </select>
+</mapper>
