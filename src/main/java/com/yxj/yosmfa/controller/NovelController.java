@@ -124,19 +124,21 @@ public RestResponse<Novel> update(@RequestBody Novel entity){
             //取余
             int i = novels.size() % 500;
             int i1 = (novels.size() - i) / 500;
-            for (int j = 1; j <= i1; j++) {
+            for (int j = 0; j < i1; j++) {
                 List<Novel> subList = novels.subList(j*500, (j+1) * 500);
-                if (j == 1){
-                    subList = novels.subList(0, j * 500);
-                }else {
-                    subList = novels.subList(0, j * 500);
+                boolean result = iNovelService.saveBatch(subList);
+                if (!result){
+                    throw new NullPointerException("保存失败");
                 }
             }
-            boolean result = iNovelService.saveBatch(novels);
+            List<Novel> subList = novels.subList(i1*500, novels.size());
+            boolean result = iNovelService.saveBatch(subList);
             if (result){
-                System.out.printf("爬取完成");
-                return RestResponse.success("成功");
+                return RestResponse.success("爬取完成");
+
             }
+
+
         }
 
         return RestResponse.fail("报存book失败");
